@@ -123,13 +123,13 @@ public class FrmCambiosMonedas extends JFrame {
     private List<CambioMoneda> datos;
 
     private void cargarDatos() {
-        String nombreArchivo = System.getProperty("user.dir") +
-                "/src/datos/Cambios Monedas.csv";
+        String nombreArchivo = System.getProperty("user.dir") + "/src/datos/Cambios Monedas.csv";
         datos = CambioMonedaServicio.getDatos(nombreArchivo);
         var monedas = CambioMonedaServicio.getMonedas(datos);
 
-        DefaultComboBoxModel dcbm = new DefaultComboBoxModel(monedas.toArray());
-        cmbMoneda.setModel(dcbm);
+        DefaultComboBoxModel dcnm = new DefaultComboBoxModel(monedas.toArray());
+
+        cmbMoneda.setModel(dcnm);
     }
 
     private void btnGraficarClick() {
@@ -141,6 +141,14 @@ public class FrmCambiosMonedas extends JFrame {
 
             // Cambiar a la pestaña de Grafica
             tpCambiosMoneda.setSelectedIndex(0);
+
+            var datosFiltrados = CambioMonedaServicio.filtrarCambiosMoneda(moneda, desde, hasta, datos);
+            var fechas = CambioMonedaServicio.getFechas(datosFiltrados);
+            var cambios = CambioMonedaServicio.getCambios(datosFiltrados);
+
+            var datosGrafica = CambioMonedaServicio.getDatosGrafica(fechas, cambios, moneda);
+            var grafica = CambioMonedaServicio.getGrafica(datosGrafica, moneda, desde, hasta);
+            CambioMonedaServicio.mostrarGrafica(pnlGrafica, grafica);
         }
     }
 

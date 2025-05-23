@@ -5,12 +5,12 @@ import java.time.LocalDate;
 public class CambioMoneda {
     private String moneda;
     private LocalDate fecha;
-    private double Cambio;
+    private double cambio;
 
     public CambioMoneda(String moneda, LocalDate fecha, double cambio) {
         this.moneda = moneda;
         this.fecha = fecha;
-        Cambio = cambio;
+        this.cambio = cambio;
     }
 
     public CambioMoneda() {
@@ -33,11 +33,11 @@ public class CambioMoneda {
     }
 
     public double getCambio() {
-        return Cambio;
+        return cambio;
     }
 
     public void setCambio(double cambio) {
-        Cambio = cambio;
+        this.cambio = cambio;
     }
 
 }
