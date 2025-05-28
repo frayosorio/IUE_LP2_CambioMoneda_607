@@ -2,14 +2,11 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -23,16 +20,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
-
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.DateAxis;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.time.Day;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
 
 import datechooser.beans.DateChooserCombo;
 import entidades.CambioMoneda;
@@ -161,6 +148,21 @@ public class FrmCambiosMonedas extends JFrame {
 
             // Cambiar a la pestaña de estadísticas
             tpCambiosMoneda.setSelectedIndex(1);
+
+            var estadisticas = CambioMonedaServicio.getEstadisticas(moneda, desde, hasta, datos);
+
+            pnlEstadisticas.removeAll();
+            pnlEstadisticas.setLayout(new GridBagLayout());
+            int fila = 0;
+            for (var estatadistica : estadisticas.entrySet()) {
+                var gbc = new GridBagConstraints();
+                gbc.gridx = 0;
+                gbc.gridy = fila;
+                pnlEstadisticas.add(new JLabel(estatadistica.getKey()), gbc);
+                gbc.gridx = 1;
+                pnlEstadisticas.add(new JLabel(String.format("%.2f", estatadistica.getValue())), gbc);
+                fila++;
+            }
 
         }
     }
